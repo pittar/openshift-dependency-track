@@ -72,7 +72,6 @@ objects:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    creationTimestamp: null
     labels:
       app: dependency-track
     name: tracker-data
@@ -83,7 +82,6 @@ objects:
       requests:
         storage: "${VOLUME_CAPACITY}"
     volumeName: tracker-data
-  status: {}
 - apiVersion: v1
   kind: Service
   metadata:
