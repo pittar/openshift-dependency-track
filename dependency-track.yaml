@@ -81,7 +81,6 @@ objects:
     resources:
       requests:
         storage: "${VOLUME_CAPACITY}"
-    volumeName: tracker-data
 - apiVersion: v1
   kind: Service
   metadata:
