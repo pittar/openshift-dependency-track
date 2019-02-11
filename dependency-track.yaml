@@ -67,7 +67,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: dependency-track:3.4.0
-          namespace: ${IMAGESTREAM_PROJECT}
+          namespace: "${IMAGESTREAM_PROJECT}"
       type: ImageChange
 - apiVersion: v1
   kind: PersistentVolumeClaim
@@ -128,8 +128,8 @@ objects:
     tags:
     - from:
         kind: DockerImage
-        name: "docker.io/owasp/dependency-track:${DEPENDECNY_TRACK_VERSION}""
-      name: "${DEPENDECNY_TRACK_VERSION}""
+        name: "docker.io/owasp/dependency-track:${DEPENDECNY_TRACK_VERSION}"
+      name: "${DEPENDECNY_TRACK_VERSION}"
 parameters:
 - displayName: ImageStream Project
   name: IMAGESTREAM_PROJECT
