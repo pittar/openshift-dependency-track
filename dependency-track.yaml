@@ -1,0 +1,146 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: dependency-track
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: dependency-track
+    name: dependency-track
+  spec:
+    replicas: 1
+    selector:
+      app: dependency-track
+      deploymentconfig: dependency-track
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: dependency-track
+          deploymentconfig: dependency-track
+      spec:
+        containers:
+        - env:
+          - name: ALPINE_DATABASE_URL
+            value: jdbc:h2:/data/.dependency-track/db
+          - name: ALPINE_DATA_DIRECTORY
+            value: /data/.dependency-track
+          imagePullPolicy: IfNotPresent
+          name: dependency-track
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            limits:
+              cpu: "2"
+            requests:
+              cpu: "2"
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: tracker-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: tracker-data
+          persistentVolumeClaim:
+            claimName: tracker-data
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - dependency-track
+        from:
+          kind: ImageStreamTag
+          name: dependency-track:3.4.0
+          namespace: ${IMAGESTREAM_PROJECT}
+      type: ImageChange
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: dependency-track
+    name: tracker-data
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: "${VOLUME_CAPACITY}"
+    volumeName: tracker-data
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: dependency-track
+    name: dependency-track
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: dependency-track
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: dependency-track
+    name: dependency-track
+  spec:
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: dependency-track
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: dependency-track
+    name: dependency-track
+  spec:
+    tags:
+    - from:
+        kind: DockerImage
+        name: "docker.io/owasp/dependency-track:${DEPENDECNY_TRACK_VERSION}""
+      name: "${DEPENDECNY_TRACK_VERSION}""
+parameters:
+- displayName: ImageStream Project
+  name: IMAGESTREAM_PROJECT
+  required: true
+  value: "cicd"
+- displayName: Dependency Track version
+  name: DEPENDECNY_TRACK_VERSION
+  required: true
+  value: "3.4.0"
+- description: Volume space available for Dependency Track e.g. 2Gi
+  displayName: Volume Space for Dependency Track
+  name: VOLUME_CAPACITY
+  required: true
+  value: 10Gi
