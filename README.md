@@ -24,7 +24,7 @@ When Jenkins re-deploys, it will install the Dependency Track plugin.  Once Jenk
 
 There should now be a `Dependency Track` section.  
 * Add in the service URL for the Dependency Track server (e.g. http://dependency-track:8080)
-* Add a token (find this by logging into Dependency Track, then navigating to `Administration -> Access Management -> Teams)
+* Add a token (find this by logging into Dependency Track, then navigating to `Administration -> Access Management -> Teams`)
     * Click on `Administrators`, then generate a new token, copy it, and paste it into the token input in the Jenkins config.
 * Test your connection.  If it works, save and you're done.
 
