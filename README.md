@@ -33,7 +33,7 @@ Invoke the plugin to build the `bom.xml` file:
 mvn org.cyclonedx:cyclonedx-maven-plugin:makeBom
 ```
 
-Invoke the [[Jenkins plugin](https://plugins.jenkins.io/dependency-track) to upload and process the bom file that should be found at `target/bom.xml`.
+Invoke the [Jenkins plugin](https://plugins.jenkins.io/dependency-track) to upload and process the bom file that should be found at `target/bom.xml`.
 
 Pipeline code:
 ```
