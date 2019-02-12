@@ -15,7 +15,7 @@ To use Dependency Track, your app should create a [BOM](https://cyclonedx.org/) 
 </plugins>
 ```
 
-If using Jenks supplied by OpenShift, you can install the Dependency Track [[Jenkins plugin](https://plugins.jenkins.io/dependency-track) by adding the following ENVIRONMENT variable to the master Jenkins deployment config:
+If using Jenks supplied by OpenShift, you can install the Dependency Track [Jenkins plugin](https://plugins.jenkins.io/dependency-track) by adding the following ENVIRONMENT variable to the master Jenkins deployment config:
 ```
 INSTALL_PLUGINS=dependency-track:2.1.0
 ```
