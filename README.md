@@ -1,4 +1,4 @@
-# OWASP Dependenchy Track - OpenShift
+# OWASP Dependency Track - OpenShift
 
 This template will install [OWASP Dependency Track](https://dependencytrack.org/) on OpenShift.
 
