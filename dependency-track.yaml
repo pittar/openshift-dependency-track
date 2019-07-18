@@ -125,17 +125,17 @@ objects:
     tags:
     - from:
         kind: DockerImage
-        name: "docker.io/owasp/dependency-track:${DEPENDECNY_TRACK_VERSION}"
-      name: "${DEPENDECNY_TRACK_VERSION}"
+        name: "docker.io/owasp/dependency-track:${DEPENDENCY_TRACK_VERSION}"
+      name: "${DEPENDENCY_TRACK_VERSION}"
 parameters:
 - displayName: ImageStream Project
   name: IMAGESTREAM_PROJECT
   required: true
   value: "cicd"
 - displayName: Dependency Track version
-  name: DEPENDECNY_TRACK_VERSION
+  name: DEPENDENCY_TRACK_VERSION
   required: true
-  value: "3.4.0"
+  value: "3.5.1"
 - description: Volume space available for Dependency Track e.g. 2Gi
   displayName: Volume Space for Dependency Track
   name: VOLUME_CAPACITY
