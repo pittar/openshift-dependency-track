@@ -41,8 +41,10 @@ objects:
           resources:
             limits:
               cpu: "2"
+              memory: 2Gi
             requests:
               cpu: "2"
+              memory: 2Gi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
